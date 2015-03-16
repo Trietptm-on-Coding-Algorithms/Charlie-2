@@ -1,0 +1,12 @@
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.exe.config
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.exe
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.pdb
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.csprojResolveAssemblyReference.cache
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.exe
+\\psf\home\documents\visual studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.pdb
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.exe.config
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.exe
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.pdb
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.exe
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\bin\Debug\ransomware_Csharp.pdb
+Y:\Documents\Visual Studio 2013\Projects\ransomware_Csharp\ransomware_Csharp\obj\Debug\ransomware_Csharp.csprojResolveAssemblyReference.cache
