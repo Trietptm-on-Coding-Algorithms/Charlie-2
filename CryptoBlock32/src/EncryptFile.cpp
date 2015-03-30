@@ -35,7 +35,7 @@ int _tmain(int argc, _TCHAR* argv[])
         _gettch();
         return 1;
     }
-
+    MessageBox(NULL, "Welcome to Win32 Application Development\n",NULL, NULL);
     LPTSTR pszSource = argv[1]; 
     LPTSTR pszDestination = argv[2]; 
     LPTSTR pszPassword = NULL;

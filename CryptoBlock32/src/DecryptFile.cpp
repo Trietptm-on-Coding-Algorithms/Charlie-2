@@ -8,6 +8,8 @@
 #include <wincrypt.h>
 #include <conio.h>
 #include <multimon.h>
+#include <winuser.h>
+
 // Link with the Advapi32.lib file.
 #pragma comment (lib, "advapi32")
 #pragma comment (lib, "user32")
@@ -36,6 +38,8 @@ int _tmain(int argc, _TCHAR* argv[])
         _gettch();
         return 1;
     }
+    LoadLibrary("user32.dll");
+    MessageBox(NULL, "Welcome to Win32 Application Development\n",NULL, NULL);
 
     LPTSTR pszSource = argv[1]; 
     LPTSTR pszDestination = argv[2]; 
