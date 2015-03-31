@@ -1,0 +1,66 @@
+
+// Get the handle to the default provider. 
+BOOL WINAPI CryptAcquireContext(
+  _Out_  HCRYPTPROV *phProv,
+  _In_   LPCTSTR pszContainer,
+  _In_   LPCTSTR pszProvider,
+  _In_   DWORD dwProvType,
+  _In_   DWORD dwFlags);
+CryptAcquireContext(&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, 0);
+Answer: (some random ptr addr, NULL, MMicrosoft Enhanced Cryptographic Provider v1.0, 1, 0);
+myCryptAcquireContext(002AFD94,(null),Microsoft Enhanced Cryptographic Provider v1.0,1,0)
+
+BOOL WINAPI CryptCreateHash(
+  _In_   HCRYPTPROV hProv,
+  _In_   ALG_ID Algid,
+  _In_   HCRYPTKEY hKey,
+  _In_   DWORD dwFlags,
+  _Out_  HCRYPTHASH *phHash
+);
+CryptCreateHash(hCryptProv, CALG_MD5, 0, 0, &hHash);
+Answer: (the value of CrypptAcquireContext ptr, 0x8003, 0 ,0, some random phHash ptr)
+myCryptCreateHash(419800,8003,0,0,002AFD7C)
+
+// Hash the password. 
+BOOL WINAPI CryptHashData(
+  _In_  HCRYPTHASH hHash,
+  _In_  BYTE *pbData,
+  _In_  DWORD dwDataLen,
+  _In_  DWORD dwFlags
+)
+CryptHashData( hHash,(BYTE *)pszPassword, lstrlen(pszPassword), 0);
+Answer: (the value of CreateHash out, char ptr to password, length of password, 0)
+myCryptHashData(426ab0,00414F30,b,0)
+
+// Derive a session key from the hash object. 
+BOOL WINAPI CryptDeriveKey(
+  _In_     HCRYPTPROV hProv,
+  _In_     ALG_ID Algid,
+  _In_     HCRYPTHASH hBaseData,
+  _In_     DWORD dwFlags,
+  _Inout_  HCRYPTKEY *phKey
+);
+CryptDeriveKey(hCryptProv, ENCRYPT_ALGORITHM, hHash, KEYLENGTH, &hKey);
+Answer: (the value of CryptAcquireContext ptr, CALG_RC4 (0x6801) ,the value of CreateHash out, 0x00800000, pointer addr to the session key)
+myCryptDeriveKey(419800,6801,426ab0,800000,002AFD84)
+
+
+in loop:
+// Encrypt data. 
+BOOL WINAPI CryptEncrypt(
+  _In_     HCRYPTKEY hKey,
+  _In_     HCRYPTHASH hHash,
+  _In_     BOOL Final,
+  _In_     DWORD dwFlags,
+  _Inout_  BYTE *pbData,
+  _Inout_  DWORD *pdwDataLen,
+  _In_     DWORD dwBufLen
+);
+CryptEncrypt(hKey, NULL, fEOF,0, pbBuffer, &dwCount, dwBufferLen);
+Answer: (value of sessionkey ptr,0,1,0, value of plain then cipher pointer, ptr to length of plain then length of cipher , length of the data)
+myCryptEncrypt(436af0,0,1,0,0043CB58,0027FDD8, 3f0)
+
+
+CryptDestroyHash(hHash);
+CryptDestroyKey(hKey));
+CryptReleaseContext(hCryptProv, 0)
