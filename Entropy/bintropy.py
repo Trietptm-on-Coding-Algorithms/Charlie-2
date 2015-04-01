@@ -99,7 +99,7 @@ def bintropy(con): #module for bintropy calculation
         #fileSize = len(byteArr)
         #entropy(byteArr, fileSize)  
     
-while True: # keep checking till encryption is detected
+while l: # keep checking till encryption is detected
     root = '/home/kani/Desktop'
     for fname in d: #check each file in the directory "path"
         if fname.endswith('.pdf'): # .pdf file check
