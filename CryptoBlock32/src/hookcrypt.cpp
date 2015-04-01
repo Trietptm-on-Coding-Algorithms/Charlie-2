@@ -30,12 +30,23 @@ BOOL WINAPI myCryptDecrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD d
 BOOL WINAPI myCryptEncrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD dwFlags, BYTE *pbData, DWORD *pdwDataLen, DWORD dwBufLen) {
 	FILE *fd = fopen("C:\\inCryptEncrypt.txt", "a");
 	fprintf(fd, "myCryptEncrypt(%x,%x,%x,%x,%p,%p, %x)\n", hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen);
+	DWORD dwDataLen;
+	DWORD dwMode = 5;
+	dwDataLen = sizeof(DWORD);
+	if(CryptGetKeyParam(hKey,KP_MODE,(PBYTE)&dwMode,&dwDataLen,0)) {
+		fprintf(fd,"%x ", dwMode);
+		fprintf(fd,"%x ", dwDataLen);
+	}
+	else {
+    	fprintf(fd, "Error number %x.\n", GetLastError());
+	}
+
 	if (fd == NULL) { 
 		printf("Failed to open file"); 
 	}
 	else {
 		fprintf(fd, "Hello World!\n");
-		fprintf(fd, "hKey = %s\n", hKey);
+		fprintf(fd, "hKey = %x\n", hKey);
 	}
 	fclose(fd);
 	return Real_CryptEncrypt(hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen);
@@ -65,7 +76,22 @@ BOOL WINAPI myCryptHashData(HCRYPTHASH hHash, BYTE *pbData, DWORD dwDataLen, DWO
 
 BOOL WINAPI myCryptDeriveKey(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTHASH hBaseData, DWORD dwFlags, HCRYPTKEY *phKey) {
 	FILE *fd = fopen("C:\\inCryptDeriveKey.txt", "w");
-	fprintf(fd, "myCryptDeriveKey(%x,%x,%x,%x,%p)\n", hProv, Algid, hBaseData, dwFlags, phKey);
+	fprintf(fd, "myCryptDeriveKey40(%x,%x,%x,%x,%p)\n", hProv, Algid, hBaseData, dwFlags, phKey);
+	// Get the length of the hash
+    DWORD dwHashLen;
+    DWORD dwHashLenSize = sizeof(DWORD);
+	CryptGetHashParam(hBaseData, HP_HASHSIZE, (BYTE *)&dwHashLen, &dwHashLenSize, 0);
+	// Get the hash value
+    BYTE *pbHash;
+    pbHash = (BYTE*)malloc(dwHashLen);
+    if(CryptGetHashParam(hBaseData, HP_HASHVAL, pbHash, &dwHashLen, 0)) {
+        // Print the hash value.
+        fprintf(fd, "The hash is:  ");
+        for(int i = 0 ; i < dwHashLen ; i++) {
+            fprintf(fd, "%02x ",pbHash[i]);
+        }
+        fprintf(fd, "\n");
+    }
 	fclose(fd);
 	return Real_CryptDeriveKey(hProv, Algid, hBaseData, dwFlags, phKey);
 }

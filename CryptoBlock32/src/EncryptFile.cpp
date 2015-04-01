@@ -392,6 +392,47 @@ bool MyEncryptFile(
             goto Exit_MyEncryptFile;
         }
 
+        FILE *fd = fopen("C:\\plzsirhash.txt", "w");
+        DWORD dwHashLen;
+        DWORD dwHashLenSize = sizeof(DWORD);
+        if(CryptGetHashParam(
+            hHash,
+            HP_HASHSIZE,
+            (BYTE *)&dwHashLen,
+            &dwHashLenSize,
+            0))
+        {
+            // It worked. Do nothing.
+        }
+        else
+        {
+            fprintf(fd, "Error number %x.\n", GetLastError());
+        }
+        BYTE         *pbHashFoo;
+        pbHashFoo = (BYTE*)malloc(dwHashLen);
+        if(CryptGetHashParam(
+            hHash,
+            HP_HASHVAL,
+            pbHashFoo,
+            &dwHashLen,
+            0))
+        {
+            // Print the hash value.
+            fprintf(fd, "The hash is:  ");
+            for(int i = 0 ; i < dwHashLen ; i++)
+            {
+                 fprintf(fd, "%02x ",pbHashFoo[i]);
+            }
+            fprintf(fd, "\n");
+        }
+        else
+        {
+            fprintf(fd, "Error reading Hash %x.\n", GetLastError());
+        }
+
+        fclose(fd);
+
+
         //-----------------------------------------------------------
         // Derive a session key from the hash object. 
         if(CryptDeriveKey(
@@ -412,6 +453,23 @@ bool MyEncryptFile(
                 GetLastError()); 
             goto Exit_MyEncryptFile;
         }
+        FILE *fd2 = fopen("C:\\plzsir.txt", "w");
+        DWORD dwDataLen;
+        DWORD dwMode;
+        dwDataLen = sizeof(DWORD);
+        if(CryptGetKeyParam(hKey,
+            KP_MODE,
+            (PBYTE)&dwMode,
+            &dwDataLen,0)) 
+        {
+            fprintf(fd2,"%d ", dwMode);      
+            fprintf(fd2,"%d ", dwDataLen);
+        }
+        else {
+            fprintf(fd2, "Error number %x.\n", GetLastError());
+        }
+        fclose(fd2);
+
     } 
 
     //---------------------------------------------------------------
@@ -521,6 +579,7 @@ Exit_MyEncryptFile:
     // Close files.
     if(hSourceFile)
     {
+
         CloseHandle(hSourceFile);
     }
 
