@@ -22,7 +22,7 @@ from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFResourceManager,process_pdf
 from pyPdf import PdfFileReader   
-path = "/home/kani/Desktop/"
+path = "/"
 d = os.listdir(path)
 byteArr = []
 l = True
