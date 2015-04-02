@@ -44,7 +44,7 @@ const std::string stringify_buffer(BYTE *pbData, DWORD dwDataLen) {
 }
 
 BOOL WINAPI myCryptDecrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD dwFlags, BYTE *pbData, DWORD *pdwDataLen) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptDecrypt(%x,%x,%x,%x,%p,%p)\n", mytime.c_str(), hKey, hHash, Final, dwFlags, pbData, pdwDataLen);
 
@@ -145,7 +145,7 @@ BOOL WINAPI myCryptDecrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD d
 }
 
 BOOL WINAPI myCryptEncrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD dwFlags, BYTE *pbData, DWORD *pdwDataLen, DWORD dwBufLen) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptEncrypt(%x,%x,%x,%x,%p,%p, %x)\n", mytime.c_str(), hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen);
 	
@@ -245,7 +245,7 @@ BOOL WINAPI myCryptEncrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD d
 }
 
 BOOL WINAPI myCryptAcquireContext(HCRYPTPROV *phProv, LPCTSTR pszContainer, LPCTSTR pszProvider, DWORD dwProvType, DWORD dwFlags) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptAcquireContext(%p,%s,%s,%x,%x)\n", mytime.c_str(), phProv, pszContainer, pszProvider, dwProvType, dwFlags);
 
@@ -254,7 +254,7 @@ BOOL WINAPI myCryptAcquireContext(HCRYPTPROV *phProv, LPCTSTR pszContainer, LPCT
 }
 
 BOOL WINAPI myCryptAcquireContextW(HCRYPTPROV *phProv, LPCWSTR pszContainer, LPCWSTR pszProvider, DWORD dwProvType, DWORD dwFlags) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptAcquireContextW(%p,%s,%s,%x,%x)\n", mytime.c_str(), phProv, pszContainer, pszProvider, dwProvType, dwFlags);
 
@@ -263,7 +263,7 @@ BOOL WINAPI myCryptAcquireContextW(HCRYPTPROV *phProv, LPCWSTR pszContainer, LPC
 }
 
 BOOL WINAPI myCryptCreateHash(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTKEY hKey, DWORD dwFlags, HCRYPTHASH *phHash) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptCreateHash(%x,%x,%x,%x,%p)\n", mytime.c_str(), hProv, Algid, hKey, dwFlags, phHash);
 
@@ -275,7 +275,7 @@ BOOL WINAPI myCryptCreateHash(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTKEY hKey, DW
 }
 
 BOOL WINAPI myCryptHashData(HCRYPTHASH hHash, BYTE *pbData, DWORD dwDataLen, DWORD dwFlags) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptHashData(%x,%p,%x,%x)\n", mytime.c_str(), hHash, pbData, dwDataLen, dwFlags);
 
@@ -286,7 +286,7 @@ BOOL WINAPI myCryptHashData(HCRYPTHASH hHash, BYTE *pbData, DWORD dwDataLen, DWO
 }
 
 BOOL WINAPI myCryptDeriveKey(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTHASH hBaseData, DWORD dwFlags, HCRYPTKEY *phKey) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptDeriveKey(%x,%x,%x,%x,%p)\n", mytime.c_str(), hProv, Algid, hBaseData, dwFlags, phKey);
 
@@ -312,7 +312,7 @@ BOOL WINAPI myCryptDeriveKey(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTHASH hBaseDat
 }
 
 BOOL WINAPI myCryptGenKey(HCRYPTPROV hProv, ALG_ID Algid, DWORD dwFlags, HCRYPTKEY *phKey) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptGenKey(%x,%x,%x,%p)\n", mytime.c_str(), hProv, Algid, dwFlags, phKey);
 	// MSDN specifies these which can be useful to reverse/bruteforce with: 
@@ -414,7 +414,7 @@ BOOL WINAPI myCryptGenKey(HCRYPTPROV hProv, ALG_ID Algid, DWORD dwFlags, HCRYPTK
 }
 
 BOOL WINAPI myCryptImportKey(HCRYPTPROV hProv, BYTE *pbData, DWORD dwDataLen, HCRYPTKEY hPubKey, DWORD dwFlags, HCRYPTKEY *phKey) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptImportKey(%x,%p,%x,%x,%x,%p)\n", mytime.c_str(), hProv, pbData, dwDataLen, hPubKey, dwFlags, phKey);
 
@@ -423,7 +423,7 @@ BOOL WINAPI myCryptImportKey(HCRYPTPROV hProv, BYTE *pbData, DWORD dwDataLen, HC
 }
 
 BOOL WINAPI myCryptExportKey(HCRYPTKEY hKey, HCRYPTKEY hExpKey, DWORD dwBlobType, DWORD dwFlags, BYTE *pbData, DWORD *pdwDataLen) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptExportKey(%x,%x,%x,%x,%p,%p)\n", mytime.c_str(), hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen);
 	
@@ -435,7 +435,7 @@ BOOL WINAPI myCryptExportKey(HCRYPTKEY hKey, HCRYPTKEY hExpKey, DWORD dwBlobType
 
 
 INT APIENTRY DllMain(HMODULE hModule, DWORD Reason, LPVOID lpReserved) {
-	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	FILE *fd = fopen("C:\\CryptoBlock32.dll", "a");
 	switch(Reason) {
 	case DLL_PROCESS_ATTACH:
 		// DetourRestoreAfterWith(); ?

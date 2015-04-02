@@ -1,6 +1,17 @@
-# Hookcrypt hooks into Microsoft CryptoAPI calls and logs their arguments and outputs into C:\CryptoBlock32.txt
+# Hookcrypt hooks into Microsoft CryptoAPI calls and logs their arguments and outputs into C:\CryptoBlock32.dll
+# The file is named .dll to attempt to dodge ransomware encrypting the log file itself. Just open it in notepad. 
 # Microsoft Research's Detours is required to be installed from: http://research.microsoft.com/en-us/projects/detours/
 
+#===== GETTING STARTED =====
+# This should just work once you have: 
+# 1. detours.lib built and placed into the right directory
+# 2. Admin privileges / UAC disabled
+build.bat foo.dll
+install.bat foo.dll
+EncryptFile.exe in.txt out.enc password123
+-> Check CryptoBlock32.dll
+
+#==============================================================================================================
 #====== BUILD =======
 # detours.lib should be in the same directory or figure out how to use cl 
 # commandline to specify libpath 
