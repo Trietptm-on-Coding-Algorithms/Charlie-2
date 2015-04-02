@@ -1,11 +1,15 @@
-# detours.lib should be in the same directory or figure out how to use cl commandline to specify libpath
-# All the libs are #pragma at the beginning of the cpp. I think that should work to make the cl cmd shorter, 
-# otherwise just do `cl hookcrypt.cpp crypt32.lib user32.lib advapi32.lib`
+# detours.lib should be in the same directory or figure out how to use cl 
+# commandline to specify libpath 
+# All the libs are #pragma at the beginning of the cpp. I think that should 
+# work to make the cl cmd shorter, otherwise just do 
+# cl hookcrypt.cpp crypt32.lib user32.lib advapi32.lib
 cl /LD hookcrypt.cpp
-move hookcrypt.dll to C:\hookcrypt.dll (THIS IS ACTUALLY IMPORTANT AS MICROSOFT DOESN'T KNOW HOW TO PROGRAM LONG PATHS)
+move hookcrypt.dll to C:\hookcrypt.dll (THIS IS ACTUALLY IMPORTANT AS MICROSOFT 
+DOESN'T KNOW HOW TO PROGRAM LONG PATHS)
 
-# All the libs are #pragma at the beginning of the cpp. I think that should work to make the cl cmd shorter, 
-# otherwise just do `cl EncryptFile.cpp crypt32.lib user32.lib advapi32.lib`
+# All the libs are #pragma at the beginning of the cpp. I think that should work 
+# to make the cl cmd shorter, otherwise just do 
+# cl EncryptFile.cpp crypt32.lib user32.lib advapi32.lib
 cl EncryptFile.cpp 
 
 # In registry change:
