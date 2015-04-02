@@ -13,7 +13,7 @@ pip install "numpy-1.9.2+mkl-cp27-none-win32.whl"
 pip install scipy-0.15.1-cp27-none-win32.whl
 
 # HOW TO RUN:
-python bintropy.py
+python bintropy-win.py
 
 
 
