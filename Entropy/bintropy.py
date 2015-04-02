@@ -1,3 +1,4 @@
+"""Author : Kanimozhi Murugan"""
 #Bin entropy calculation using statistical test suite based on Discrete fourier transform of the sequence. 
 #The purpose is to detect the repetetive patterns that are near to each other in the sequence which would indicate
 #a deviation from the assumption of randomness.
@@ -17,13 +18,14 @@ import sys, os, binascii
 import math, pdfminer
 from scipy.fftpack import fft
 from StringIO import StringIO
-from pdfminer.pdfparser import PDFParser, PDFDocument, PDFPage, PDFSyntaxError
+from pdfminer.pdfparser import PDFParser, PDFSyntaxError
 from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
-from pdfminer.pdfinterp import PDFResourceManager,process_pdf
-path = "C:\"
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+path = "C:\Users\Kanimozhi\Desktop"
 d = os.listdir(path)
-l = 0
+global l
 byteArr = []
 print "===================Detect encryption of files by Binary entropy====================="
 print 
@@ -33,25 +35,29 @@ print
 
 def pdf_r(fil):
     try:
-        f = open(path+"\\"+fil,"rb")
+        f = open(path+"/"+fil,"rb")
         mem = StringIO(f)
         parser = PDFParser(mem)#parser to the pdf
-        doc = PDFDocument(parser) 
+       # doc = PDFDocument(parser) 
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
         device = TextConverter(rsrcmgr, retstr,codec='utf-8', laparams=LAParams()) #PDF text
-        process_pdf(rsrcmgr, device, f) #extract the pdf content using pdfmanager
+        #process_pdf(rsrcmgr, device, f) #extract the pdf content using pdfmanager
+        inter = PDFPageInterpreter(rsrcmgr, device)
+        caching = True
+        pagenos = set()
+        for page in PDFPage.get_pages(f, pagenos, maxpages=0, caching=caching, check_extractable=True):
+            inter.process_page(page)
+        f.close()  
         device.close()
         str = retstr.getvalue()
         retstr.close()
         #byteArr = map(ord, str) #map the extracted content to ASCII codes
         con = bin(int(binascii.hexlify(str),16))
-       # bintropy(con)
-        f.close()
+        return bintropy(con)
     except PDFSyntaxError:    
-        print "##############PDF Encrypted found in ",path+"/"+fil+"######################"
+        print "*****PDF Encrypted found in ",path+"\\"+fil+"*****"
         print
-        global l
         l = l + 1
 
 # calculate the ascii_frequency of each byte value in the file
@@ -94,11 +100,7 @@ def bintropy(con): #module for bintropy calculation
             peak += 1  #actual observed number of peaks
     d = (peak - thoery_t)/math.sqrt(len(slist) * 0.95 * 0.05 /4)#normalized difference between the theoretical and observed freq of peaks
     ent = math.erfc(abs(d)/math.sqrt(2)) #complementary error function values to the normalized difference
-    print "Entropy:",ent
-    if ent >= 0.01:
-        global l
-        l += 1
-        print "Encryption happening"
+    return ent
         #s_obs = abs(s)/math.sqrt(len(con[2:])) #test statistic of the binary content 
         #ent = math.erfc(s_obs/math.sqrt(2))
         # print path+"/"+fil,"Bin Entropy :",ent
@@ -107,18 +109,26 @@ def bintropy(con): #module for bintropy calculation
         #byteArr = map(ord, f.read())
         #f.close()
         #fileSize = len(byteArr)
-        #entropy(byteArr, fileSize)  
-        
+        #entropy(byteArr, fileSize)
+l = 0        
 while l < 1: # keep checking till encryption is detected
     for fname in d: #check each file in the directory "path"
         if fname.endswith('.pdf'): # .pdf file check
-            print "File : ",path +'\\'+ fname
-            pdf_r(fname)
+            ent = pdf_r(fname) #check if pdf content is extractable
+            if ent is not None:
+                print "File :\t",fname,"\t\tEntropy:",ent
+
         elif fname.endswith('.txt') or fname.endswith('.doc'): # if .txt or .doc file check
-            f = open(path+"/"+fname,"rb") 
-            print "File :",path +'\\'+ fname
+            f = open(path+'\\'+fname) 
             con = bin(int(binascii.hexlify(f.read()),16)) #convert into binary sequence
-            bintropy(con) #calculate bin entropy of the file 
-print "Found ",l,"Encrypted Files in the Path"
+            ent = bintropy(con) #calculate bin entropy of the file
+            print "File :\t",fname,"\tEntropy :",ent
+            if ent > 0.01: # detect if file is encrypted
+                l += 1
+                print "******Encrypted file found******"
+            
+print
+print 
+print "***********Found ",l,"Encrypted Files in the Path **************"
 
         
