@@ -21,14 +21,19 @@ from pdfminer.pdfparser import PDFParser, PDFDocument, PDFPage, PDFSyntaxError
 from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFResourceManager,process_pdf
-from pyPdf import PdfFileReader   
-path = "/"
+path = "C:\"
 d = os.listdir(path)
+l = 0
 byteArr = []
-l = True
+print "===================Detect encryption of files by Binary entropy====================="
+print 
+print 
+print "Checking (.txt, .doc, .pdf) files within the path:",path
+print
+
 def pdf_r(fil):
     try:
-        f = open(path+"/"+fil,"rb")
+        f = open(path+"\\"+fil,"rb")
         mem = StringIO(f)
         parser = PDFParser(mem)#parser to the pdf
         doc = PDFDocument(parser) 
@@ -44,7 +49,10 @@ def pdf_r(fil):
        # bintropy(con)
         f.close()
     except PDFSyntaxError:    
-        print "Encrypted pdf! found in",path+"/"+fil
+        print "##############PDF Encrypted found in ",path+"/"+fil+"######################"
+        print
+        global l
+        l = l + 1
 
 # calculate the ascii_frequency of each byte value in the file
 # read the whole file into a byte array 'byteArr' 
@@ -67,28 +75,30 @@ def acsii_entropy(byteArr,fileSize):
    # print (ent * fileSize), 'in bits' 
    # print (ent * fileSize) / 8, 'in bytes'
    
+########################## Bintropy ####################################################
 def bintropy(con): #module for bintropy calculation
     s = 0.0
     slist = []
-    dict = {'1':1,'0':-1}
+    dict = {'1':1,'0':-1} 
     for i in con[2:]:
-        slist.append(dict[i]) #get the -1 and 1 sequence
+        slist.append(dict[i]) # Convert 1 -> 1 and  0 -> -1 in the binary sequence "con"
         s = s + dict[i]
     dft = fft(slist)    #get the dft of the sequence
-    ddft = dft[0:len(slist)/2] # half the dft - substring
-    modulus = [abs(i) for i in ddft] #modulus of the substring in the dft    
-    t = math.sqrt(math.log(1/0.05) * len(slist)) #95% threshold peak height   
-    thoery_t = 0.95 * len(slist)/2 #expected theoretical number of peaks
+    ddft = dft[0:len(slist)/2] # get the substring of the dft with half the size
+    modulus = [abs(i) for i in ddft] #modulus of the substring in the dft (abs value of the modulus)
+    t = math.sqrt(math.log(1/0.05) * len(slist)) #95% threshold peak height (max peak height for any non-random sequence)  
+    thoery_t = 0.95 * len(slist)/2 #expected theoretical number of peaks with heights > t
     peak = 0
     for m in modulus:
         if m < t:
             peak += 1  #actual observed number of peaks
     d = (peak - thoery_t)/math.sqrt(len(slist) * 0.95 * 0.05 /4)#normalized difference between the theoretical and observed freq of peaks
-    ent = math.erfc(abs(d)/math.sqrt(2))
+    ent = math.erfc(abs(d)/math.sqrt(2)) #complementary error function values to the normalized difference
     print "Entropy:",ent
     if ent >= 0.01:
+        global l
+        l += 1
         print "Encryption happening"
-        l = False 
         #s_obs = abs(s)/math.sqrt(len(con[2:])) #test statistic of the binary content 
         #ent = math.erfc(s_obs/math.sqrt(2))
         # print path+"/"+fil,"Bin Entropy :",ent
@@ -98,16 +108,17 @@ def bintropy(con): #module for bintropy calculation
         #f.close()
         #fileSize = len(byteArr)
         #entropy(byteArr, fileSize)  
-    
-while l: # keep checking till encryption is detected
-    root = '/home/kani/Desktop'
+        
+while l < 1: # keep checking till encryption is detected
     for fname in d: #check each file in the directory "path"
         if fname.endswith('.pdf'): # .pdf file check
+            print "File : ",path +'\\'+ fname
             pdf_r(fname)
         elif fname.endswith('.txt') or fname.endswith('.doc'): # if .txt or .doc file check
             f = open(path+"/"+fname,"rb") 
-            con = bin(int(binascii.hexlify(f.read()),16)) #convert the binary sequence
+            print "File :",path +'\\'+ fname
+            con = bin(int(binascii.hexlify(f.read()),16)) #convert into binary sequence
             bintropy(con) #calculate bin entropy of the file 
-        
+print "Found ",l,"Encrypted Files in the Path"
 
         
