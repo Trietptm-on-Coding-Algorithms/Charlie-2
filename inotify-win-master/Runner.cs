@@ -96,22 +96,7 @@ namespace De.Thekid.INotify
                 switch (token[0])
                 {
                     case 'e':
-                        //Process.Start("./strings.exe");
-                        Process proc = new Process {
-                            StartInfo = new ProcessStartInfo {
-                                FileName = "strings.exe",
-                                Arguments = "test/file1.txt",
-                                UseShellExecute = false,
-                                RedirectStandardOutput = true,
-                                CreateNoWindow = true
-                            }
-                        };
-                        proc.Start();
-                        while (!proc.StandardOutput.EndOfStream) {
-                            string line = proc.StandardOutput.ReadLine();
-                            // do something with line
-                            Console.Error.WriteLine(line);
-                        }
+                        
                         writer.Write(type);
                         if (Directory.Exists(path))
                         {
@@ -125,6 +110,27 @@ namespace De.Thekid.INotify
                 }
 
             }
+
+            Process proc = new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = "strings.exe",
+                    Arguments = "test/file1.txt",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            int count = 0;
+            while (!proc.StandardOutput.EndOfStream) {
+                string line = proc.StandardOutput.ReadLine();
+                // do something with line
+                if(count  > 4){
+                    Console.Error.WriteLine(line);
+                }
+                count++;
+            }
+
             writer.WriteLine();
 
         }
