@@ -90,9 +90,10 @@ namespace De.Thekid.INotify
         /// Output method
         protected void Output(TextWriter writer, string[] tokens, FileSystemWatcher source, Change type, string name)
         {
+            var path = "";
             foreach (var token in tokens)
             {
-                var path = Path.Combine(source.Path, name);
+                path = Path.Combine(source.Path, name);
                 switch (token[0])
                 {
                     case 'e':
@@ -111,10 +112,13 @@ namespace De.Thekid.INotify
 
             }
 
+            FileInfo f = new FileInfo("test/test3.dmg");
+            long s1 = f.Length;
+
             Process proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = "strings.exe",
-                    Arguments = "test/hi.txt",
+                    Arguments = "test/test3.dmg",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
@@ -129,9 +133,11 @@ namespace De.Thekid.INotify
                     Console.Error.WriteLine(line);
                 }
                 count++;
+                Console.Error.WriteLine(count - 4);
             }
 
             writer.WriteLine();
+            Console.Error.WriteLine(s1);
 
         }
 
