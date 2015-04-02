@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace De.Thekid.INotify
 {
@@ -89,13 +90,14 @@ namespace De.Thekid.INotify
         /// Output method
         protected void Output(TextWriter writer, string[] tokens, FileSystemWatcher source, Change type, string name)
         {
+            var path = "";
             foreach (var token in tokens)
             {
-                var path = Path.Combine(source.Path, name);
+                path = Path.Combine(source.Path, name);
                 switch (token[0])
                 {
                     case 'e':
-
+                        
                         writer.Write(type);
                         if (Directory.Exists(path))
                         {
@@ -109,7 +111,33 @@ namespace De.Thekid.INotify
                 }
 
             }
+
+            FileInfo f = new FileInfo("test/test3.dmg");
+            long s1 = f.Length;
+
+            Process proc = new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = "strings.exe",
+                    Arguments = "test/test3.dmg",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+            proc.Start();
+            int count = 0;
+            while (!proc.StandardOutput.EndOfStream) {
+                string line = proc.StandardOutput.ReadLine();
+                // do something with line
+                if(count  > 4){
+                    Console.Error.WriteLine(line);
+                }
+                count++;
+                Console.Error.WriteLine(count - 4);
+            }
+
             writer.WriteLine();
+            Console.Error.WriteLine(s1);
 
         }
 
