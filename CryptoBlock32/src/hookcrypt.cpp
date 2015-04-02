@@ -21,6 +21,7 @@ static BOOL (WINAPI *Real_CryptDeriveKey)(HCRYPTPROV, ALG_ID, HCRYPTHASH, DWORD,
 
 static BOOL (WINAPI *Real_CryptGenKey)(HCRYPTPROV, ALG_ID, DWORD, HCRYPTKEY *) = CryptGenKey;
 static BOOL (WINAPI *Real_CryptImportKey)(HCRYPTPROV, const BYTE *, DWORD, HCRYPTKEY, DWORD, HCRYPTKEY *) = CryptImportKey;
+static BOOL (WINAPI *Real_CryptExportKey)(HCRYPTKEY, HCRYPTKEY, DWORD, DWORD, BYTE *, DWORD *) = CryptExportKey;
 
 
 const std::string CurrentTime() {
@@ -421,6 +422,15 @@ BOOL WINAPI myCryptImportKey(HCRYPTPROV hProv, BYTE *pbData, DWORD dwDataLen, HC
 	return Real_CryptImportKey(hProv, pbData, dwDataLen, hPubKey, dwFlags, phKey);
 }
 
+BOOL WINAPI myCryptExportKey(HCRYPTKEY hKey, HCRYPTKEY hExpKey, DWORD dwBlobType, DWORD dwFlags, BYTE *pbData, DWORD *pdwDataLen) {
+	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
+	std::string mytime = CurrentTime();
+	fprintf(fd, "%s myCryptExportKey(%x,%x,%x,%x,%p,%p)\n", mytime.c_str(), hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen);
+
+	fclose(fd);
+	return Real_CryptExportKey(hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen);
+}
+
 
 INT APIENTRY DllMain(HMODULE hModule, DWORD Reason, LPVOID lpReserved) {
 	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
@@ -439,6 +449,7 @@ INT APIENTRY DllMain(HMODULE hModule, DWORD Reason, LPVOID lpReserved) {
 		DetourAttach(&(PVOID&)Real_CryptDeriveKey, myCryptDeriveKey);
 		DetourAttach(&(PVOID&)Real_CryptGenKey, myCryptGenKey);
 		DetourAttach(&(PVOID&)Real_CryptImportKey, myCryptImportKey);
+		DetourAttach(&(PVOID&)Real_CryptExportKey, myCryptExportKey);
 		DetourTransactionCommit();
 		fprintf(fd, "Made it out of process_attach\n");
 		break;
@@ -455,6 +466,7 @@ INT APIENTRY DllMain(HMODULE hModule, DWORD Reason, LPVOID lpReserved) {
 		DetourDetach(&(PVOID&)Real_CryptDeriveKey, myCryptDeriveKey);
 		DetourDetach(&(PVOID&)Real_CryptGenKey, myCryptGenKey);
 		DetourDetach(&(PVOID&)Real_CryptImportKey, myCryptImportKey);
+		DetourDetach(&(PVOID&)Real_CryptExportKey, myCryptExportKey);
 		DetourTransactionCommit();
 		break;
 
