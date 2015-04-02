@@ -426,6 +426,8 @@ BOOL WINAPI myCryptExportKey(HCRYPTKEY hKey, HCRYPTKEY hExpKey, DWORD dwBlobType
 	FILE *fd = fopen("C:\\CryptoBlock32.txt", "a");
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptExportKey(%x,%x,%x,%x,%p,%p)\n", mytime.c_str(), hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen);
+	
+	//TODO(eugenek): Add some cool logging of the blog here
 
 	fclose(fd);
 	return Real_CryptExportKey(hKey, hExpKey, dwBlobType, dwFlags, pbData, pdwDataLen);
