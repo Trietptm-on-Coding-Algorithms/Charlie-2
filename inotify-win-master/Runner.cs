@@ -44,6 +44,7 @@ namespace De.Thekid.INotify
         private void OnWatcherNotification(object sender, FileSystemEventArgs e)
         {
             var w = (FileSystemWatcher)sender;
+
             HandleNotification((FileSystemWatcher)sender, e, () => Output(Console.Out, _args.Format, w, Changes[e.ChangeType], e.Name));
         }
         
@@ -94,6 +95,7 @@ namespace De.Thekid.INotify
                 switch (token[0])
                 {
                     case 'e':
+
                         writer.Write(type);
                         if (Directory.Exists(path))
                         {
@@ -105,8 +107,10 @@ namespace De.Thekid.INotify
                     case 'T': writer.Write(DateTime.Now); break;
                     default: writer.Write(token); break;
                 }
+
             }
             writer.WriteLine();
+
         }
 
         public void Processor(object data)
