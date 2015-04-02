@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 namespace De.Thekid.INotify
 {
+
     // List of possible changes
     public enum Change
     {
@@ -15,6 +16,62 @@ namespace De.Thekid.INotify
     /// Main class
     public class Runner
     {
+      
+        //creating the object that stores the info
+        [Serializable]
+        public class fileDescriptor{
+            public string FilePath{get; set;}
+            public long Length{get;set;}
+            public int Strings{get;set;}
+        }
+        /*
+        public string FilePath{get; set;}
+        public long Length{get;set;}
+        public int Strings{get;set;}
+        public Runner(){}
+        public Runner(string filePath, long length, int strings){
+            FilePath = filePath;
+            Length = length;
+            Strings = strings;
+        }
+        */
+
+
+      /// <summary>
+/// Writes the given object instance to a binary file.
+/// <para>Object type (and all child types) must be decorated with the [Serializable] attribute.</para>
+/// <para>To prevent a variable from being serialized, decorate it with the [NonSerialized] attribute; cannot be applied to properties.</para>
+/// </summary>
+/// <typeparam name="T">The type of object being written to the XML file.</typeparam>
+/// <param name="filePath">The file path to write the object instance to.</param>
+/// <param name="objectToWrite">The object instance to write to the XML file.</param>
+/// <param name="append">If false the file will be overwritten if it already exists. If true the contents will be appended to the file.</param>
+public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+{
+    using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
+    {
+        var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        binaryFormatter.Serialize(stream, objectToWrite);
+    }
+}
+
+/// <summary>
+/// Reads an object instance from a binary file.
+/// </summary>
+/// <typeparam name="T">The type of object to read from the XML.</typeparam>
+/// <param name="filePath">The file path to read the object instance from.</param>
+/// <returns>Returns a new instance of the object read from the binary file.</returns>
+public static T ReadFromBinaryFile<T>(string filePath)
+{
+    using (Stream stream = File.Open(filePath, FileMode.Open))
+    {
+        var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        return (T)binaryFormatter.Deserialize(stream);
+    }
+}
+
+
+
         // Mappings
         protected static Dictionary<WatcherChangeTypes, Change> Changes = new Dictionary<WatcherChangeTypes, Change>();
 
@@ -111,14 +168,14 @@ namespace De.Thekid.INotify
                 }
 
             }
-
-            FileInfo f = new FileInfo("test/test3.dmg");
+//ALMELL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            FileInfo f = new FileInfo("test/hi.txt");
             long s1 = f.Length;
 
             Process proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = "strings.exe",
-                    Arguments = "test/test3.dmg",
+                    Arguments = "test/hi.txt",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
@@ -138,6 +195,20 @@ namespace De.Thekid.INotify
 
             writer.WriteLine();
             Console.Error.WriteLine(s1);
+            fileDescriptor fd = new fileDescriptor(){FilePath = "test/hi.txt", Length = s1, Strings = count};
+            //Runner run = new Runner("test/test3.txt", s1, count);
+            WriteToBinaryFile("info/store.xml", fd, true);
+            //WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+            using (Stream stream = File.Open("info/store.xml", FileMode.Open))
+            {
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                fileDescriptor fdNew = (fileDescriptor)binaryFormatter.Deserialize(stream);
+                Console.Error.WriteLine(fdNew.FilePath);
+            }
+
+
+
+            //Console.Error.WriteLine(fdNew.FilePath);
 
         }
 
