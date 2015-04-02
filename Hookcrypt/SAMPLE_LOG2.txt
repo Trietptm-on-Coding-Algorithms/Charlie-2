@@ -1,0 +1,25 @@
+# Sample log 2 to show some capability
+# Using this information we can reverse the entire encryption.
+# 1. CryptAcquireContext(&hCryptProv, NULL, MS_ENHANCED_PROV, PROV_RSA_FULL, 0);
+# 2. CryptImportKey(&hCryptProv, pbKeyBlob, dwKeyBlobLen, 0, 0, &hKey)
+# 3. CryptDecryptKey(hKey, 0, fEOF, 0, pbBuffer, &dwCount);
+# More info at http://ec700.bu.edu/charlie-2/2015/04/02/reversing-ms-crypto-api-encrypt/
+
+17:30:34 411 myCryptAcquireContext(0015FAC8,(null),Microsoft Enhanced Cryptographic Provider v1.0,1,0)
+17:30:34 421 myCryptGenKey(3094c8,6801,800001,0015FAB8)
+hKey = 0data size = 0 KP_ALGID:  
+data size = 0 KP_BLOCKLEN:  
+data size = 0KP_CERTIFICATE:  
+data size = 0 KP_KEYLEN:  
+data size = 0 KP_SALT:  
+data size = 0 KP_PERMISSIONS:  
+17:30:34 421 myCryptExportKey(314aa8,317598,1,0,00000000,0015FAAC) # GET THE KEYBLOB LENGTH
+17:30:34 421 myCryptExportKey(314aa8,317598,1,0,0031BFC8,0015FAAC) # GET THE KEYBLOB VAL
+17:30:34 421 myCryptEncrypt(314aa8,0,1,0,0031BFC8,0015FAB4, 3f0)
+data size = 4 KP_ALGID:  01 68 00 00 
+data size = 4 KP_BLOCKLEN:  00 00 00 00 
+data size = 0KP_CERTIFICATE:  
+data size = 4 KP_KEYLEN:  80 00 00 00 
+data size = 0 KP_SALT:  
+data size = 4 KP_PERMISSIONS:  3f 00 00 00 
+
