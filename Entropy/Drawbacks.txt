@@ -1,0 +1,8 @@
+Drawbacks : Not perfect in cases of very small files or user encrypted files.
+
+For eg : say a txt file with "SSN : 0123456789". 
+Randomness test would fail with ent > threshold because within the 14 characters, except "S", all of them are unique,
+thus random in nature. Even though it is a valid text, the entropy value would be higher than threshold.
+In case of user encrypted files, Entropy would already be higher, so if a malware starts encrypting the same file again, 
+the script cannot differentiate between "legitimate user encryption" and "unauthorized encryption" thus wouldn't be 
+efficient.
