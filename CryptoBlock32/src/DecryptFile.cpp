@@ -39,7 +39,7 @@ int _tmain(int argc, _TCHAR* argv[])
         return 1;
     }
     LoadLibrary("user32.dll");
-    MessageBox(NULL, "Welcome to Win32 Application Development\n",NULL, NULL);
+    MessageBox(NULL, "Pop up to force this EXE to link to user32.lib, also Hello World!\n",NULL, NULL);
 
     LPTSTR pszSource = argv[1]; 
     LPTSTR pszDestination = argv[2]; 

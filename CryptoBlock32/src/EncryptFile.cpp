@@ -10,6 +10,8 @@
 
 // Link with the Advapi32.lib file.
 #pragma comment (lib, "advapi32")
+#pragma comment (lib, "user32")
+#pragma comment (lib, "crypt32")
 
 #define KEYLENGTH  0x00800000
 #define ENCRYPT_ALGORITHM CALG_RC4 
@@ -35,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
         _gettch();
         return 1;
     }
-    MessageBox(NULL, "Welcome to Win32 Application Development\n",NULL, NULL);
+    MessageBox(NULL, "Pop up to force this EXE to link to user32.lib, also Hello World!\n",NULL, NULL);
     LPTSTR pszSource = argv[1]; 
     LPTSTR pszDestination = argv[2]; 
     LPTSTR pszPassword = NULL;
@@ -392,47 +394,6 @@ bool MyEncryptFile(
             goto Exit_MyEncryptFile;
         }
 
-        FILE *fd = fopen("C:\\plzsirhash.txt", "w");
-        DWORD dwHashLen;
-        DWORD dwHashLenSize = sizeof(DWORD);
-        if(CryptGetHashParam(
-            hHash,
-            HP_HASHSIZE,
-            (BYTE *)&dwHashLen,
-            &dwHashLenSize,
-            0))
-        {
-            // It worked. Do nothing.
-        }
-        else
-        {
-            fprintf(fd, "Error number %x.\n", GetLastError());
-        }
-        BYTE         *pbHashFoo;
-        pbHashFoo = (BYTE*)malloc(dwHashLen);
-        if(CryptGetHashParam(
-            hHash,
-            HP_HASHVAL,
-            pbHashFoo,
-            &dwHashLen,
-            0))
-        {
-            // Print the hash value.
-            fprintf(fd, "The hash is:  ");
-            for(int i = 0 ; i < dwHashLen ; i++)
-            {
-                 fprintf(fd, "%02x ",pbHashFoo[i]);
-            }
-            fprintf(fd, "\n");
-        }
-        else
-        {
-            fprintf(fd, "Error reading Hash %x.\n", GetLastError());
-        }
-
-        fclose(fd);
-
-
         //-----------------------------------------------------------
         // Derive a session key from the hash object. 
         if(CryptDeriveKey(
@@ -453,22 +414,6 @@ bool MyEncryptFile(
                 GetLastError()); 
             goto Exit_MyEncryptFile;
         }
-        FILE *fd2 = fopen("C:\\plzsir.txt", "w");
-        DWORD dwDataLen;
-        DWORD dwMode;
-        dwDataLen = sizeof(DWORD);
-        if(CryptGetKeyParam(hKey,
-            KP_MODE,
-            (PBYTE)&dwMode,
-            &dwDataLen,0)) 
-        {
-            fprintf(fd2,"%d ", dwMode);      
-            fprintf(fd2,"%d ", dwDataLen);
-        }
-        else {
-            fprintf(fd2, "Error number %x.\n", GetLastError());
-        }
-        fclose(fd2);
 
     } 
 
