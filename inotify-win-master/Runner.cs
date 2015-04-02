@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace De.Thekid.INotify
 {
@@ -95,7 +96,22 @@ namespace De.Thekid.INotify
                 switch (token[0])
                 {
                     case 'e':
-
+                        //Process.Start("./strings.exe");
+                        Process proc = new Process {
+                            StartInfo = new ProcessStartInfo {
+                                FileName = "strings.exe",
+                                Arguments = "test/file1.txt",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = true
+                            }
+                        };
+                        proc.Start();
+                        while (!proc.StandardOutput.EndOfStream) {
+                            string line = proc.StandardOutput.ReadLine();
+                            // do something with line
+                            Console.Error.WriteLine(line);
+                        }
                         writer.Write(type);
                         if (Directory.Exists(path))
                         {
