@@ -13,6 +13,7 @@
 // Link with the Advapi32.lib file.
 #pragma comment (lib, "advapi32")
 #pragma comment (lib, "user32")
+#pragma comment (lib, "crypt32")
 
 #define KEYLENGTH  0x00800000
 #define ENCRYPT_ALGORITHM CALG_RC4 
