@@ -169,13 +169,13 @@ public static T ReadFromBinaryFile<T>(string filePath)
 
             }
 //ALMELL~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            FileInfo f = new FileInfo("test/hi.txt");
+            FileInfo f = new FileInfo(path);
             long s1 = f.Length;
 
             Process proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = "strings.exe",
-                    Arguments = "test/hi.txt",
+                    Arguments = path,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
@@ -195,21 +195,100 @@ public static T ReadFromBinaryFile<T>(string filePath)
 
             writer.WriteLine();
             Console.Error.WriteLine(s1);
-            fileDescriptor fd = new fileDescriptor(){FilePath = "test/hi.txt", Length = s1, Strings = count};
-            //Runner run = new Runner("test/test3.txt", s1, count);
+
+
+
+            Console.Error.WriteLine("HI. we at least made it here.");
+            fileDescriptor fd = new fileDescriptor(){FilePath = path, Length = s1, Strings = count};
+            bool fileInHere = false;
             WriteToBinaryFile("info/store.xml", fd, true);
-            //WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = false)
+
+            if(new FileInfo( "info/store.xml" ).Length == 0 )
+            {
+              // do nothing
+              Console.Error.WriteLine("hi so here we are");
+            }else{
             using (Stream stream = File.Open("info/store.xml", FileMode.Open))
             {
+
                 var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
-                fileDescriptor fdNew = (fileDescriptor)binaryFormatter.Deserialize(stream);
-                Console.Error.WriteLine(fdNew.FilePath);
+                stream.Position = 0;
+                List<fileDescriptor> list = new List<fileDescriptor>();
+                while(stream.Position!=stream.Length)
+                {
+                     //deserialize each object
+                     fileDescriptor deserialized = (fileDescriptor)binaryFormatter.Deserialize(stream);
+                     //add individual object to a list
+                     list.Add(deserialized);
+//                     Console.Error.WriteLine(deserialized.FilePath);
+                    fileDescriptor fdOld = (fileDescriptor)binaryFormatter.Deserialize(stream);
+                    Console.Error.WriteLine(fdOld.FilePath);
+                    Console.Error.WriteLine(fd.FilePath);
+
+                    if(object.Equals(fdOld.FilePath, fd.FilePath)){
+                        Console.Error.WriteLine("WE GOT IN HERE");
+                        fileInHere = true;
+                        Console.Error.WriteLine(fdOld.FilePath);
+                        if((fdOld.Length == 0) | (fd.Length == 0)){
+                            //just skip it
+                        }else{
+                        long oldRatio = fdOld.Strings/fdOld.Length;
+                        long newRatio = fd.Strings/fd.Length;
+                        if(fd.Length > 6000000){
+                            Console.Error.WriteLine("WE GOT IN HERE2");
+
+                            //probably encrypted, check it
+                            if(newRatio < .035){
+                                Console.Error.WriteLine("WE GOT IN HERE3");
+
+                                if(oldRatio > newRatio){
+                                    Console.Error.WriteLine("YO WE HAVE ENCRYPTION HERE");
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+
+
+                }
+
+
+
+
+
+                /*
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+                fileDescriptor fdOld = (fileDescriptor)binaryFormatter.Deserialize(stream);
+                Console.Error.WriteLine(fdOld.FilePath);
+                Console.Error.WriteLine(fd.FilePath);
+
+                if(object.Equals(fdOld.FilePath, fd.FilePath)){
+                    Console.Error.WriteLine("WE GOT IN HERE");
+                    fileInHere = true;
+                    Console.Error.WriteLine(fdOld.FilePath);
+                    long oldRatio = fdOld.Strings/fdOld.Length;
+                    long newRatio = fd.Strings/fd.Length;
+                    if(fd.Length > 6000000){
+                        Console.Error.WriteLine("WE GOT IN HERE2");
+
+                        //probably encrypted, check it
+                        if(newRatio < .035){
+                            Console.Error.WriteLine("WE GOT IN HERE3");
+
+                            if(oldRatio > newRatio){
+                                Console.Error.WriteLine("YO WE HAVE ENCRYPTION HERE");
+                            }
+                        }
+                    }
+                }
+                */
             }
-
-
-
-            //Console.Error.WriteLine(fdNew.FilePath);
-
+        }
+            if(fileInHere == false){
+                WriteToBinaryFile("info/store.xml", fd, true);
+            }
         }
 
         public void Processor(object data)
