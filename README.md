@@ -1,6 +1,6 @@
 # EC700 Charlie-2 Project
 
-CryptoBlock is a set of tools to defend against cryptographic malware (ransomware).
+CryptoBlock is a set of tools for Windows 7 32-bit to defend against cryptographic malware (ransomware).
 
 CryptoBlock consists of ConstWatch, Entropy, Hookcrypt, and Ascii_x
 Refer to their individual README's for more information.
