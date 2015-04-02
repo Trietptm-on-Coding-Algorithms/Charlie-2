@@ -13,6 +13,6 @@ Install the following python modules in the windows Visual Studio's 2013 distrib
 <b>Usage </b> </br>
 From any directory execute the python file "python createfilewatch.py"
 
-<i>Conditions:</i>
+<i>Conditions:-</i>
 The program has access to read the files in the directories supplied to watch.
 The command window has the output of the program.
