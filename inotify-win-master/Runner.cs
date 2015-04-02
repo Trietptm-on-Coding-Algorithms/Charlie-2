@@ -114,7 +114,7 @@ namespace De.Thekid.INotify
             Process proc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = "strings.exe",
-                    Arguments = "test/file1.txt",
+                    Arguments = "test/hi.txt",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
