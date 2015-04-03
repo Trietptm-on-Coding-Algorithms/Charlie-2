@@ -48,97 +48,97 @@ BOOL WINAPI myCryptDecrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD d
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptDecrypt(%x,%x,%x,%x,%p,%p)\n", mytime.c_str(), hKey, hHash, Final, dwFlags, pbData, pdwDataLen);
 
-    
-    // MSDN specifies these which can be useful to reverse/bruteforce with: 
-    // all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
-    // if DSS: KP_P, KP_Q, KP_G
-    // if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
+	
+	// MSDN specifies these which can be useful to reverse/bruteforce with: 
+	// all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
+	// if DSS: KP_P, KP_Q, KP_G
+	// if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
 
 	DWORD dwDataLen;
 	BYTE *pbData2;
-    // GET KP_ALGID
-    dwDataLen = 0;
+	// GET KP_ALGID
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_ALGID, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
-    pbData2 = (BYTE*)malloc(dwDataLen);
+	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_ALGID, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_ALGID:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_ALGID:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_BLOCKLEN
-    dwDataLen = 0;
+	// GET KP_BLOCKLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_BLOCKLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_BLOCKLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	// GET KP_CERTIFICATE
-    dwDataLen = 0;
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_CERTIFICATE:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_CERTIFICATE:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_KEYLEN
-    dwDataLen = 0;
+	// GET KP_KEYLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_KEYLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_KEYLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_KEYLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_KEYLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_SALT
-    dwDataLen = 0;
+	// GET KP_SALT
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_SALT, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_SALT, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_SALT:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_SALT:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_PERMISSIONS
-    dwDataLen = 0;
+	// GET KP_PERMISSIONS
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_PERMISSIONS:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_PERMISSIONS:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	fclose(fd);
 	return Real_CryptDecrypt(hKey, hHash, Final, dwFlags, pbData, pdwDataLen);
@@ -149,96 +149,96 @@ BOOL WINAPI myCryptEncrypt(HCRYPTKEY hKey, HCRYPTHASH hHash, BOOL Final, DWORD d
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptEncrypt(%x,%x,%x,%x,%p,%p, %x)\n", mytime.c_str(), hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen);
 	
-    // MSDN specifies these which can be useful to reverse/bruteforce with: 
-    // all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
-    // if DSS: KP_P, KP_Q, KP_G
-    // if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
+	// MSDN specifies these which can be useful to reverse/bruteforce with: 
+	// all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
+	// if DSS: KP_P, KP_Q, KP_G
+	// if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
 	// TODO(eugenek): Add the block cipher ones as those seem prominent
 	DWORD dwDataLen;
 	BYTE *pbData2;
-    // GET KP_ALGID
-    dwDataLen = 0;
+	// GET KP_ALGID
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_ALGID, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
-    pbData2 = (BYTE*)malloc(dwDataLen);
+	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_ALGID, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_ALGID:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_ALGID:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_BLOCKLEN
-    dwDataLen = 0;
+	// GET KP_BLOCKLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_BLOCKLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_BLOCKLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	// GET KP_CERTIFICATE
-    dwDataLen = 0;
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_CERTIFICATE:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_CERTIFICATE:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_KEYLEN
-    dwDataLen = 0;
+	// GET KP_KEYLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_KEYLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_KEYLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_KEYLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_KEYLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_SALT
-    dwDataLen = 0;
+	// GET KP_SALT
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_SALT, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_SALT, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_SALT:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_SALT:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_PERMISSIONS
-    dwDataLen = 0;
+	// GET KP_PERMISSIONS
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_PERMISSIONS:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_PERMISSIONS:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	fclose(fd);
 	return Real_CryptEncrypt(hKey, hHash, Final, dwFlags, pbData, pdwDataLen, dwBufLen);
@@ -291,21 +291,21 @@ BOOL WINAPI myCryptDeriveKey(HCRYPTPROV hProv, ALG_ID Algid, HCRYPTHASH hBaseDat
 	fprintf(fd, "%s myCryptDeriveKey(%x,%x,%x,%x,%p)\n", mytime.c_str(), hProv, Algid, hBaseData, dwFlags, phKey);
 
 	// Get the length of the hash
-    DWORD dwHashLen;
-    DWORD dwHashLenSize = sizeof(DWORD);
+	DWORD dwHashLen;
+	DWORD dwHashLenSize = sizeof(DWORD);
 	CryptGetHashParam(hBaseData, HP_HASHSIZE, (BYTE *)&dwHashLen, &dwHashLenSize, 0);
 	fprintf(fd, "hash size = %d\n", dwHashLen);
 
 	// Get the hash value
-    BYTE *pbHash;
-    pbHash = (BYTE*)malloc(dwHashLen);
-    CryptGetHashParam(hBaseData, HP_HASHVAL, pbHash, &dwHashLen, 0);
-    // Print the hash value.
-    fprintf(fd, "The hash is:  ");
-    for(int i = 0 ; i < dwHashLen ; i++) {
-    	fprintf(fd, "%02x ",pbHash[i]);
-    }
-    fprintf(fd, "\n\n");
+	BYTE *pbHash;
+	pbHash = (BYTE*)malloc(dwHashLen);
+	CryptGetHashParam(hBaseData, HP_HASHVAL, pbHash, &dwHashLen, 0);
+	// Print the hash value.
+	fprintf(fd, "The hash is:  ");
+	for(int i = 0 ; i < dwHashLen ; i++) {
+		fprintf(fd, "%02x ",pbHash[i]);
+	}
+	fprintf(fd, "\n\n");
 
 	fclose(fd);
 	return Real_CryptDeriveKey(hProv, Algid, hBaseData, dwFlags, phKey);
@@ -316,98 +316,98 @@ BOOL WINAPI myCryptGenKey(HCRYPTPROV hProv, ALG_ID Algid, DWORD dwFlags, HCRYPTK
 	std::string mytime = CurrentTime();
 	fprintf(fd, "%s myCryptGenKey(%x,%x,%x,%p)\n", mytime.c_str(), hProv, Algid, dwFlags, phKey);
 	// MSDN specifies these which can be useful to reverse/bruteforce with: 
-    // all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
-    // if DSS: KP_P, KP_Q, KP_G
-    // if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
+	// all: KP_ALGID, KP_BLOCKLEN, KP_CERTIFICATE, KP_KEYLEN, KP_SALT, KP_PERMISSIONS
+	// if DSS: KP_P, KP_Q, KP_G
+	// if block cipher: KP_MODE, KP_PADDING, KP_IV, KP_EFFECTIVE_KEYLEN
 	// TODO(eugenek): Add the block cipher ones as those seem prominent
 	// TODO(eugenek): Compact this code that gets repeated a lot
 	DWORD dwDataLen;
 	BYTE *pbData2;
 	HCRYPTKEY hKey = *phKey;
 	fprintf(fd, "hKey = %x", hKey); //TODO(eugenek): This doesn't seem to work, fix it
-    // GET KP_ALGID
-    dwDataLen = 0;
+	// GET KP_ALGID
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_ALGID, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
-    pbData2 = (BYTE*)malloc(dwDataLen);
+	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_ALGID, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_ALGID:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_ALGID:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_BLOCKLEN
-    dwDataLen = 0;
+	// GET KP_BLOCKLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_BLOCKLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_BLOCKLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_BLOCKLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	// GET KP_CERTIFICATE
-    dwDataLen = 0;
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_CERTIFICATE, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_CERTIFICATE:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_CERTIFICATE:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_KEYLEN
-    dwDataLen = 0;
+	// GET KP_KEYLEN
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_KEYLEN, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_KEYLEN, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_KEYLEN:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_KEYLEN:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_SALT
-    dwDataLen = 0;
+	// GET KP_SALT
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_SALT, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_SALT, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_SALT:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_SALT:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
-    // GET KP_PERMISSIONS
-    dwDataLen = 0;
+	// GET KP_PERMISSIONS
+	dwDataLen = 0;
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, NULL, &dwDataLen, 0);
 	fprintf(fd, "data size = %d ", dwDataLen);
 	pbData2 = (BYTE*)malloc(dwDataLen);
 	CryptGetKeyParam(hKey, KP_PERMISSIONS, pbData2, &dwDataLen, 0);
 	// Print the data value.
-    fprintf(fd, "KP_PERMISSIONS:  ");
-    for(int i = 0 ; i < dwDataLen ; i++) {
-    	fprintf(fd, "%02x ",pbData2[i]);
-    }
-    fprintf(fd, "\n");
-    free(pbData2);
+	fprintf(fd, "KP_PERMISSIONS:  ");
+	for(int i = 0 ; i < dwDataLen ; i++) {
+		fprintf(fd, "%02x ",pbData2[i]);
+	}
+	fprintf(fd, "\n");
+	free(pbData2);
 
 	fclose(fd);
 	return Real_CryptGenKey(hProv, Algid, dwFlags, phKey);
