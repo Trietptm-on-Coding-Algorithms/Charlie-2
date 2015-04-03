@@ -25,5 +25,6 @@ pip install scipy
 # RUN:
 python bintropy.py
 
-
+Sample shot can be found here: 
+http://i.imgur.com/nOVlE1Y.png
 
