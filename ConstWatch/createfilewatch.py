@@ -4,8 +4,10 @@ import win32con
 import time
 import tqdm
 import pefile
+import peutils
 import re
 import subprocess
+import sys
 
 ACTIONS = {
     1: "Create",
@@ -53,7 +55,7 @@ while 1:
             try:
                 fl = open(full_filename, "rb")
             except IOError as e:
-                print "Unable to open file " %e
+                print "I/O error({0}): {1}".format(e.errno, e.strerror)
             else:
                 i=0
                 if fl.read(2) == "MZ":
@@ -70,6 +72,10 @@ while 1:
                                 pass
                     if i==0:
                         print "No Crypt dll's found in IAT, perhaps packed or benign\n"
+                        signatures = peutils.SignatureDatabase('userdb.txt')
+                        matches = signatures.match_all(pe, ep_only = True)
+                        print "Likely packers:\n"
+                        print matches
                     print "Running Scan on " + full_filename + "for Crypto Constants...\n"
                     cmd = ['C:\Python27\signsrch\signsrch.exe', full_filename]
                     res = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
