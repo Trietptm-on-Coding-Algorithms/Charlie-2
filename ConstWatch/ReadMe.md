@@ -21,4 +21,4 @@ The user running the script has access to read the files in the directories supp
 The command window has the output of the script.
 
 <b> Here it is at work </b> <br>
-![ScreenShot](http://imgur.com/rZCSQ2T)
+![ScreenShot](http://i.imgur.com/rZCSQ2T.png)
