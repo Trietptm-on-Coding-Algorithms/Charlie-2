@@ -23,7 +23,9 @@ from pdfminer.layout import LAParams
 from pdfminer.converter import TextConverter
 from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-path = "C:\Users\Kanimozhi\Desktop"
+
+username = os.getenv('username')
+path = "C:\Users\\" + username + "\Desktop"
 d = os.listdir(path)
 global l
 byteArr = []
