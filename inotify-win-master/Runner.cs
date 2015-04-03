@@ -187,17 +187,18 @@ public static T ReadFromBinaryFile<T>(string filePath)
                 string line = proc.StandardOutput.ReadLine();
                 // do something with line
                 if(count  > 4){
-                    Console.Error.WriteLine(line);
+                    //Console.Error.WriteLine(line);
                 }
                 count++;
-                Console.Error.WriteLine(count - 4);
             }
 
             writer.WriteLine();
-            Console.Error.WriteLine(s1);
+            Console.Error.WriteLine("Length : " + s1);
+            Console.Error.WriteLine("Number of Strings : " + (count - 4));
 
 
 
+/*
             Console.Error.WriteLine("HI. we at least made it here.");
             fileDescriptor fd = new fileDescriptor(){FilePath = path, Length = s1, Strings = count};
             bool fileInHere = false;
@@ -214,7 +215,7 @@ public static T ReadFromBinaryFile<T>(string filePath)
                 var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
                 stream.Position = 0;
                 List<fileDescriptor> list = new List<fileDescriptor>();
-                while(stream.Position!=stream.Length)
+                while(stream.Position<stream.Length)
                 {
                      //deserialize each object
                      fileDescriptor deserialized = (fileDescriptor)binaryFormatter.Deserialize(stream);
@@ -255,7 +256,7 @@ public static T ReadFromBinaryFile<T>(string filePath)
                 }
 
 
-
+*/
 
 
                 /*
@@ -283,12 +284,15 @@ public static T ReadFromBinaryFile<T>(string filePath)
                         }
                     }
                 }
-                */
+
             }
         }
+                        */
+        /*
             if(fileInHere == false){
                 WriteToBinaryFile("info/store.xml", fd, true);
             }
+            */
         }
 
         public void Processor(object data)
