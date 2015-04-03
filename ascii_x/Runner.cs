@@ -193,9 +193,14 @@ public static T ReadFromBinaryFile<T>(string filePath)
             }
 
             writer.WriteLine();
-            Console.Error.WriteLine("Length : " + s1);
-            Console.Error.WriteLine("Number of Strings : " + (count - 4));
-            
+            ///Console.Error.WriteLine("Length : " + s1);
+            //Console.Error.WriteLine("Number of Strings : " + (count - 4));
+            long ratio = (count-4)/s1;
+            if(ratio > .02){
+                if(ratio < .04){
+                    Console.Error.WriteLine("HEY! Might be running into some encryption here. Check it out.");
+                }
+            }
 
 
 /*
