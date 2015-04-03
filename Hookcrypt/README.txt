@@ -10,6 +10,7 @@ build.bat foo.dll
 install.bat foo.dll
 EncryptFile.exe in.txt out.enc password123
 -> Check CryptoBlock32.dll
+-> Check out SAMPLE_LOG.txt's for some SAMPLE outputs and more information on how to reverse crypto
 
 #==============================================================================================================
 #====== BUILD =======
