@@ -195,7 +195,7 @@ public static T ReadFromBinaryFile<T>(string filePath)
             writer.WriteLine();
             Console.Error.WriteLine("Length : " + s1);
             Console.Error.WriteLine("Number of Strings : " + (count - 4));
-
+            
 
 
 /*
