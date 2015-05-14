@@ -3,5 +3,4 @@
 :: has ENV set up for you. All you have to do is 'DIR <dir with hookcrypt' 
 :: and run this bat
 cl /LD hookcrypt.cpp /Fe"%1"
-cl EncryptFile.cpp
-cl DecryptFile.cpp
+
