@@ -1,3 +1,5 @@
+                           """""" DETECTION OF ENCRYPTED FILES """"""
+This script will scan through the specific path in your system and look for encrypted files using the binary entropy calculation based on fast fourier tranform peaks deteceted.
 
 Binary entropy calculated on the (.txt, .doc, .pdf)files located within the directory(path) specified.
 
